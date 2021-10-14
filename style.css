@@ -36,7 +36,9 @@
 
 body{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 /*
@@ -102,6 +104,12 @@ body{
 
 /* after pkmCard onclicked */
 
+.backBtn:hover{
+    background-color: rgba(245, 245, 245, 0.5);
+    color: black;
+    border-radius: 4px 0;
+}
+
 .large{
     z-index: 6;
     display: flex;
@@ -129,11 +137,16 @@ body{
 }
 
 .large .header *{
+    font-size: 24px;
     padding: 16px;
 }
 
 .large .img img{
     max-width: 300px;
+}
+
+.large .types{
+    padding: 0 16px;
 }
 
 .large .detail{
@@ -144,15 +157,6 @@ body{
     z-index: -1;
 }
 
-.backBtn{
-    background-color: rgba(245, 245, 245, 0);
-    color: white;
-    border-radius: 4px 0;
-}
-.backBtn:hover{
-    background-color: rgba(245, 245, 245, 0.5);
-    color: black;
-}
 
 /* pkmCardNav */
 
@@ -182,6 +186,27 @@ body{
     padding: 4px 8px;
 }
 
+/* LOADING ICON */
+#loadingIcon{
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid gray;
+    width: 40px;
+    height: 40px;
+    margin: 40px;
+    -webkit-animation: spin 0.5s linear infinite; 
+    animation: spin 0.5s linear infinite;
+}
+  
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
 /*
     RESPONSIVE
