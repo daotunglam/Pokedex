@@ -65,10 +65,12 @@ body{
 }
 
 .header{
+    font-weight: bold;
     color: white;
     text-transform: capitalize;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .img{
@@ -138,7 +140,7 @@ body{
 
 .large .header *{
     font-size: 24px;
-    padding: 16px;
+    padding: 8px;
 }
 
 .large .img img{
@@ -158,24 +160,42 @@ body{
 }
 
 
-/* pkmCardNav */
+/* PKM INFO NAV */
 
-.pkmCardNav{
+.pkmInfoNav{
     padding: 8px;
+    display: flex;
+    justify-content: space-evenly;
 }
-.pkmCardNav a{
-    text-decoration: none;
+.pkmInfoNav button{
+    border: none;
+    background-color: transparent;
     font-weight: bold;
     color: black;
     padding: 4px;
 }
-.active{
+.pkmInfoNav .active{
     color: black;
     border-bottom: 2px solid rgb(0, 255, 21);
 }
 
+/* PKM INFO */
+/* .pkmInfo{
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.pkmInfo::-webkit-scrollbar {
+    display: none;
+} */
+
 /* STATS */
 
+.stats table{
+    width: 100%;
+}
 .stats th{
     width: fit-content;
     white-space: nowrap;
@@ -185,6 +205,15 @@ body{
     width: 100%;
     padding: 4px 8px;
 }
+
+/* MOVES */
+.moves{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    white-space: nowrap;
+    grid-gap:16px;
+}
+
 
 /* LOADING ICON */
 #loadingIcon{
@@ -226,6 +255,11 @@ body{
     #pkms{
         grid-template-columns: auto auto auto;
     }
+    .moves{
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        grid-gap:16px;
+    }
 }
 @media (max-width: 576px) {
     #pkms{
@@ -234,9 +268,17 @@ body{
     .large{
         width: 90%;
     }
+    .moves{
+        display: grid;
+        grid-template-columns: auto auto auto;
+    }
 }
 @media (max-width: 300px) {
     #pkms{
         grid-template-columns: auto;
+    }
+    .moves{
+        display: grid;
+        grid-template-columns: auto auto;
     }
 }

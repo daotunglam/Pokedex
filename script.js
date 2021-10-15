@@ -24,6 +24,8 @@
  * IMPORTANT NOTICES
  * - cardCover is the solution for the request:
  *      click on pkmCard to make it big
+ * - Bootstrap doens't work when it requires id and your id hat this: ${i}
+ *      LOL Bootstrap
  */
 
 
@@ -72,9 +74,9 @@ function renderpkmCards() {
         document.getElementById('pkms').innerHTML += `
             <div class="pkmCard bg-${types[0].type.name}" id="pkmCard(${i})" >
                 <div class="cardCover"  onclick="makeBig(${i})" id="cardCover(${i})""></div>
-                <div class="header">
-                    <i class="backBtn fas fa-arrow-left" onclick="makeSmall(${i})" style="display:none"></i>
-                    <h5 id="name">${name}</h5>
+                <div class="header bg-${types[0].type.name}">
+                    <div class="backBtn" onclick="makeSmall(${i})" style="display:none"><i class="fas fa-arrow-left"></i></div>
+                    <div id="name">${name}</div>
                     <div>#${id}</div>
                 </div>
                 <div class="img">
@@ -87,17 +89,18 @@ function renderpkmCards() {
                         <div>Weight ${weight}</div>
                         <div>Height ${height}</div>
                     </div>
-                    <div id="pkmCardNav(${i})" class="pkmCardNav"></div>
-                    <table id="abilities(${i})" class="abilities"></table>
-                    <table id="stats(${i})" class="stats"></table>
-                    <div id="evolution(${i})" class="evolution"></div>
-                    <div id="moves(${i})" class="moves"></div>
+                    <div id="pkmInfoNav(${i})" class="pkmInfoNav"></div>
+                    <div class="pkmInfo" id="pkmInfo(${i})">
+                        <div    class="pkmInfoItem abilities" id="abilities(${i})"></div>
+                        <table  class="pkmInfoItem stats active" id="stats(${i})"></table>
+                        <div    class="pkmInfoItem moves" id="moves(${i})"></div>
+                    </div>
                 </div>
             </div>
         `;
         loadTypes(types, i);
-        loadpkmCardNav(i);
-        loadStats(pkm, i);
+        loadpkmInfoNav(i);
+        loadStats(i); //must be here one because of active appearance
         document.getElementById(`pkmCard(${i})`).style.transition = "all 0.1s";
         document.getElementById('loadingIcon').style = 'display: none';
     }
@@ -112,38 +115,58 @@ function loadTypes(types, i) {
     })
 }
 
-function loadpkmCardNav(i){
-    document.getElementById(`pkmCardNav(${i})`).innerHTML = `
-        <nav class="d-flex flex-row justify-content-evenly">
-            <a onclick="activeMark(this)">Abilities</a>
-            <a onclick="activeMark(this)" class="active">Stats</a>
-            <a onclick="activeMark(this)">Evolution</a>
-            <a onclick="activeMark(this)">Moves</a>
-        </nav>
+function loadpkmInfoNav(i){
+    document.getElementById(`pkmInfoNav(${i})`).innerHTML = `
+        <button onclick='mark(this, ${i}); emptyInfo(${i}); loadAbilities(${i});'>Abilities</button>
+        <button onclick='mark(this, ${i}); emptyInfo(${i}); loadStats(${i});' class="active">Stats</button>
+        <button onclick='mark(this, ${i}); emptyInfo(${i}); loadMoves(${i});'>Moves</button>
     `;
 }
 
-//change underline navbar item by click
-function activeMark(a){
-    let navItems = document.querySelectorAll('nav a');
-    navItems.forEach(element => {
-        element.classList.remove('active');
+// onclick pkmInfoNav Item will mark it
+function mark(btn, i){
+    let navItems = document.getElementById(`pkmInfoNav(${i})`).querySelectorAll('button');
+    navItems.forEach(item => {
+        item.classList.remove('active');
     });
-    a.classList.add('active');
+    btn.classList.add('active');
 }
 
-function loadStats(pkm, i){
-    pkm.stats.forEach(item =>{
+function emptyInfo(i){
+    let x = document.getElementById(`pkmInfo(${i})`).querySelectorAll(`.pkmInfoItem`);
+    x.forEach(item =>{
+        item.innerHTML =``;
+    })
+}
+
+function loadAbilities(i){
+    allPokemons[i].abilities.forEach(item =>{
+        document.getElementById(`abilities(${i})`).innerHTML +=`
+            <div>${item.ability.name}</div>
+        `;
+    })
+}
+
+function loadStats(i){
+    allPokemons[i].stats.forEach(item =>{
         document.getElementById(`stats(${i})`).innerHTML +=`
-            <tr>
-                <th class="statName">${item.stat.name}</th>
-                <td>${item.base_stat}</td>
-                <td>
-                    <div class="progress" style="height:6px;">
-                        <div  style="width: ${item.base_stat / 3}%;" class="progress-bar progress-bar-striped progress-bar-animated" aria-valuenow="${item.base_stat / 3}" aria-valuemin="0" aria-valuemax="300"></div>
-                    </div>
-                </td>
-            </tr>
+                <tr>
+                    <th class="statName">${item.stat.name}</th>
+                    <td>${item.base_stat}</td>
+                    <td>
+                        <div class="progress" style="height:6px;">
+                            <div  style="width: ${item.base_stat / 3}%;" class="progress-bar progress-bar-striped progress-bar-animated" aria-valuenow="${item.base_stat / 3}" aria-valuemin="0" aria-valuemax="300"></div>
+                        </div>
+                    </td>
+                </tr>
+        `;
+    })
+}
+
+function loadMoves(i){
+    allPokemons[i].moves.forEach(item =>{
+        document.getElementById(`moves(${i})`).innerHTML +=`
+            <div>${item.move.name}</div>
         `;
     })
 }
